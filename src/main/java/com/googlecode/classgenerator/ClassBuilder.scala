@@ -156,6 +156,7 @@ class ClassBuilder[T](val pool: ClassPool, val ctClass: CtClass, val reflectionM
 	def implementFromTrait(template: Class[_], enableSuperMethod: Boolean): this.type = {
 		template.getMethods.foreach { m =>
 			val newMethod = method(m.getName)
+				.argTypes(m.getParameterTypes.toList)
 				.returnType(m.getReturnType.asInstanceOf[Class[Any]])
 			if (enableSuperMethod) newMethod.enableSuperMethodInvocation
 			newMethod.implementation
@@ -170,6 +171,14 @@ class ClassBuilder[T](val pool: ClassPool, val ctClass: CtClass, val reflectionM
 			method(m.getName)
 				.returnType(m.getReturnType.asInstanceOf[Class[Any]])
 				.enableSuperMethodInvocation
+				.implementation
+		}
+		this.asInstanceOf[ClassBuilder[T with MethodImplementation[T]]]
+	}
+	def createMethods(clz: Class[_], methods: Set[Method]): ClassBuilder[T with MethodImplementation[T]] = {
+		methods.foreach { m =>
+			method(m.getName)
+				.returnType(m.getReturnType.asInstanceOf[Class[Any]])
 				.implementation
 		}
 		this.asInstanceOf[ClassBuilder[T with MethodImplementation[T]]]

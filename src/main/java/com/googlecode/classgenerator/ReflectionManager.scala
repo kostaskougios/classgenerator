@@ -87,4 +87,7 @@ class ReflectionManager {
 			set[Any, Any](field, to, v)
 		}
 	}
+
+	def callMethod(method: Method, o: Object, args: Array[Any]) =
+		method.invoke(o, args.asInstanceOf[Array[Object]]: _*)
 }
