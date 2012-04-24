@@ -88,6 +88,11 @@ class ReflectionManager {
 		}
 	}
 
+	def copy(fieldName: String, from: Any, to: Any) {
+		val v = get[Any, Any](fieldName, from)
+		set[Any, Any](fieldName, to, v)
+	}
+
 	def callMethod(method: Method, o: Object, args: Array[Any]) =
 		method.invoke(o, args.asInstanceOf[Array[Object]]: _*)
 }
