@@ -13,5 +13,6 @@ package object classgenerator {
 
 	def getter(name: String) = name
 	def setter(name: String) = name + "_$eq"
+	def isSetter(name: String) = name.endsWith("_$eq")
 	def getterFromSetter(name: String) = name.substring(0, name.length - 4) // remove _$eq
 }
