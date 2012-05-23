@@ -4,6 +4,7 @@ import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 import java.lang.reflect.Method
 import java.lang.reflect.Constructor
+import java.lang.reflect.Modifier
 
 /**
  * @author kostantinos.kougios
@@ -55,8 +56,9 @@ class ReflectionManager {
 			val r = if (clz.getSuperclass != null) {
 				ccfs ::: fields(clz.getSuperclass)
 			} else ccfs
-			fieldsCache.put(clz, r)
-			r
+			val fr = r.filterNot(f => Modifier.isStatic(f.getModifiers))
+			fieldsCache.put(clz, fr)
+			fr
 		} else fs
 	}
 
