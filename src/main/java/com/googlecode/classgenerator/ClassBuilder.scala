@@ -166,15 +166,17 @@ class ClassBuilder[T](val pool: ClassPool, val ctClass: CtClass, val reflectionM
 
 	def implementFromTrait[TR](enableSuperMethod: Boolean)(implicit m: ClassManifest[TR]): this.type = implementFromTrait(m.erasure, enableSuperMethod)
 
-	def overrideMethods(clz: Class[_], methods: Set[Method]): ClassBuilder[T with MethodImplementation[T]] = {
+	def overrideMethods(methods: Set[Method]): ClassBuilder[T with MethodImplementation[T]] = {
 		methods.foreach { m =>
 			method(m.getName)
+				.argTypes(m.getParameterTypes.toList)
 				.returnType(m.getReturnType.asInstanceOf[Class[Any]])
 				.enableSuperMethodInvocation
 				.implementation
 		}
 		this.asInstanceOf[ClassBuilder[T with MethodImplementation[T]]]
 	}
+
 	def createMethods(clz: Class[_], methods: Set[Method]): ClassBuilder[T with MethodImplementation[T]] = {
 		methods.foreach { m =>
 			method(m.getName)

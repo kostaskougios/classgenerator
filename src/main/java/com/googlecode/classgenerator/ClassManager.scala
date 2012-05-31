@@ -71,7 +71,7 @@ class ClassManager(pool: ClassPool = {
 
 	def lazyLoadBuilder[T](clz: Class[T], methods: Set[Method]): ClassBuilder[T with MethodImplementation[T]] = {
 		buildNewSubclass(clz)
-			.overrideMethods(clz, methods)
+			.overrideMethods(methods)
 			.overrideSettersIfExist(clz, methods)
 	}
 
