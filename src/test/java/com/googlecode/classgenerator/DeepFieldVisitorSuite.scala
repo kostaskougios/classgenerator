@@ -15,6 +15,22 @@ import java.lang.reflect.Field
 class DeepFieldVisitorSuite extends FunSuite with ShouldMatchers {
 	val rm = new ReflectionManager
 	val dfv = new DeepFieldVisitor(rm)
+	test("deep visit two") {
+		val result = dfv.visitTwo(
+			Person("kostas", Dog("greta", 5), 20),
+			Person("tina", Dog("koutch", 7), 18)
+		) { (o1, o2, field, v1, v2) =>
+				(field.getName, v1, v2)
+			}
+		result.toSet should be === Set(
+			("name", "kostas", "tina"),
+			("pet", Dog("greta", 5), Dog("koutch", 7)),
+			("age", 20, 18),
+			("name", "greta", "koutch"),
+			("age", 5, 7)
+		)
+	}
+
 	test("deep visit") {
 		val result = dfv.visit(Person("kostas", Dog("greta", 5), 20)) { (o, field, v) =>
 			(field.getName, v)
@@ -27,6 +43,7 @@ class DeepFieldVisitorSuite extends FunSuite with ShouldMatchers {
 			("age", 5)
 		)
 	}
+
 	test("deep visit, nulls") {
 		val result = dfv.visit(Person("kostas", null, 20)) { (o, field, v) =>
 			(field.getName, v)
