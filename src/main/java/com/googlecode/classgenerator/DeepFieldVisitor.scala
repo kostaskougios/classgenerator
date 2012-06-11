@@ -29,6 +29,25 @@ class DeepFieldVisitor(
 				})
 			}.flatten
 		} else Nil
+
+	def visitTwo[T, R](t1: T, t2: T)(visitor: (Any, Any, Field, Any, Any) => R): List[R] = visitTwoInner(t1, t2, new IdentityHashMap, visitor)
+
+	private def visitTwoInner[R](o1: Any, o2: Any, m: IdentityHashMap[Any, Any], visitor: (Any, Any, Field, Any, Any) => R): List[R] =
+		if (!m.containsKey(o1)) {
+			m.put(o1, o1)
+			val fields = reflectionManager.fields(o1.getClass).filterNot(_.getName == "$outer")
+			fields.map { field =>
+				val v1 = reflectionManager.get[Any, Any](field, o1)
+				val v2 = reflectionManager.get[Any, Any](field, o2)
+				val r = visitor(o1, o2, field, v1, v2)
+				r :: (if (v1 == null) Nil else {
+					if (dontVisit(v1))
+						Nil
+					else
+						visitTwoInner(v1, v2, m, visitor)
+				})
+			}.flatten
+		} else Nil
 }
 
 object DeepFieldVisitor {
