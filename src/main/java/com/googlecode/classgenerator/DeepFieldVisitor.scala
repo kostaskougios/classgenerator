@@ -37,10 +37,10 @@ class DeepFieldVisitor(
 			m.put(o1, o1)
 			val fields = reflectionManager.fields(o1.getClass).filterNot(_.getName == "$outer")
 			fields.map { field =>
-				val v1 = reflectionManager.get[Any, Any](field, o1)
-				val v2 = reflectionManager.get[Any, Any](field, o2)
+				val v1 = reflectionManager.get[Any, AnyRef](field, o1)
+				val v2 = reflectionManager.get[Any, AnyRef](field, o2)
 				val r = visitor(o1, o2, field, v1, v2)
-				r :: (if (v1 == null) Nil else {
+				r :: (if (v1 == null || v2 == null) Nil else {
 					if (dontVisit(v1))
 						Nil
 					else
