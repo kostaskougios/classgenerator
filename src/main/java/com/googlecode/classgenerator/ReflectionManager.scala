@@ -90,10 +90,10 @@ class ReflectionManager {
 		}
 	}
 
-	def copy(clz: Class[_], from: Any, to: Any, skip: Set[String]) {
+	def copy(clz: Class[_], from: Any, to: Any, skip: Set[String])(f: (Field, Any) => Boolean) {
 		fields(clz).filterNot(field => skip(field.getName)).foreach { field =>
 			val v = get[Any, Any](field, from)
-			set[Any, Any](field, to, v)
+			if (f(field, v)) set[Any, Any](field, to, v)
 		}
 	}
 
