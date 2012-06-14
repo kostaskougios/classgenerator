@@ -47,14 +47,14 @@ class ReflectionManager {
 		fields(clz).find(_.getName == name)
 	}
 
-	private val fieldsCache = new ConcurrentHashMap[Class[_], List[Field]]
-	def fields(clz: Class[_]): List[Field] = {
+	private val fieldsCache = new ConcurrentHashMap[Class[_], Set[Field]]
+	def fields(clz: Class[_]): Set[Field] = {
 		if (clz == null) throw new NullPointerException("clz is null")
 		val fs = fieldsCache.get(clz)
 		if (fs == null) {
-			val ccfs = clz.getDeclaredFields.toList
+			val ccfs = clz.getDeclaredFields.toSet
 			val r = if (clz.getSuperclass != null) {
-				ccfs ::: fields(clz.getSuperclass)
+				ccfs ++ fields(clz.getSuperclass)
 			} else ccfs
 			val fr = r.filterNot(f => Modifier.isStatic(f.getModifiers))
 			fieldsCache.put(clz, fr)
