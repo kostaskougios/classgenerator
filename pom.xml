@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.classgenerator</groupId>
 	<artifactId>classgenerator</artifactId>
-	<version>0.6.4</version>
+	<version>0.6.5</version>
 	<description><![CDATA[
 	classgenerator is a scala library that wraps javassist and provides various
 	patterns for generating classes via subclassing and implementing interfaces. 
