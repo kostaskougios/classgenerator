@@ -20,8 +20,8 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://classgenerator.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://classgenerator.googlecode.com/svn/trunk/</developerConnection>
+		<connection>scm:git:https://kostas.kougios@code.google.com/p/classgenerator/</connection>
+		<developerConnection>scm:git:https://kostas.kougios@code.google.com/p/classgenerator/</developerConnection>
 		<url>https://code.google.com/p/classgenerator/source/browse/</url>
 	</scm>
 	<issueManagement>
