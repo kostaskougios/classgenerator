@@ -1,4 +1,5 @@
-# deploy mapperdao after all tests run
+# deploy classgenerator after all tests run
 
-mvn -DskipTests=true clean source:jar scala:doc-jar package deploy 
+mvn -DskipTests -P scala2.10 -Dexclude clean source:jar scala:doc-jar package deploy 
+mvn -DskipTests -P scala2.9 clean source:jar scala:doc-jar package deploy 
 

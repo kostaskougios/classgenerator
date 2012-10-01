@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.classgenerator</groupId>
 	<artifactId>classgenerator</artifactId>
-	<version>0.6.4</version>
+	<version>0.6.5-${scala.version}</version>
 	<description><![CDATA[
 	classgenerator is a scala library that wraps javassist and provides various
 	patterns for generating classes via subclassing and implementing interfaces. 
@@ -36,7 +36,6 @@
 	</developers>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<scala.version>2.9.2</scala.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -51,12 +50,6 @@
 			<version>3.16.1-GA</version>
 		</dependency>
 		<dependency>
-			<groupId>org.scalatest</groupId>
-			<artifactId>scalatest_2.9.1</artifactId>
-			<version>1.7.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
@@ -69,7 +62,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>2.5.1</version>
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<source>1.7</source>
@@ -79,7 +72,7 @@
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>scala-maven-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>3.1.0</version>
 				<configuration>
 					<scalaVersion>${scala.version}</scalaVersion>
 					<args>
@@ -103,27 +96,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
+				<version>2.2</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
 						<phase>verify</phase>
 						<goals>
 							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.4</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -163,4 +142,43 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>scala2.9</id>
+			<properties>
+				<scala.version>2.9.2</scala.version>
+			</properties>
+			<activation>
+				<property>
+					<name>!exclude</name>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.scalatest</groupId>
+					<artifactId>scalatest_2.9.2</artifactId>
+					<version>2.0.M4</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>scala2.10</id>
+			<properties>
+				<scala.version>2.10.0-M7</scala.version>
+			</properties>
+			<activation>
+				<property>
+					<name>exclude</name>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.scalatest</groupId>
+					<artifactId>scalatest_2.10.0-M7</artifactId>
+					<version>2.0.M4-2.10.0-M7-B1</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>
