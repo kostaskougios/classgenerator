@@ -1,7 +1,7 @@
 # deploy after all tests run
 
 V="0.6.6"
-SS="-SNAPSHOT"
+SS=""
 
 echo "Version is $V , snapshot: $SS"
 
